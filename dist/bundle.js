@@ -1,0 +1,1 @@
+(()=>{"use strict";document.querySelector("header-main").addEventListener("click",(function(){e.target;var t=e.target.closest(".clubs-list ul");t&&console.log(t)})),console.log("headerMain")})();

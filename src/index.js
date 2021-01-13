@@ -1,3 +1,3 @@
-import dropdownMenu from './modules/dropdownMenu';
+import dropdownMenu from './modules/mainHeaderClick';
 
 dropdownMenu();
