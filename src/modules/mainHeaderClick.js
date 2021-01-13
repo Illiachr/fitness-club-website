@@ -1,3 +1,5 @@
+import popUpClose from './popUpEvent';
+
 export default () => {
     const headerMain = document.querySelector('.header-main');
     const clubSelectList = document.querySelector('.clubs-list ul');
@@ -6,14 +8,15 @@ export default () => {
 
     const handlHeaderClick = e => {
         const { target } = e;
+        let targetElem = null;
 
         if (target.closest('.clubs-list')) {
             if (click < 1) {
                 clubSelectList.style.display = 'block';
-                click++;
+                click += 1;
             } else {
                 clubSelectList.style.display = 'none';
-                click--;
+                click -= 1;
             }
         }
 
@@ -24,6 +27,12 @@ export default () => {
         if (target.closest('.close-menu-btn') || target.closest('.popup-menu li')) {
             popUpMenu.style.display = 'none';
         }
+
+        targetElem = target.closest('.free-visit');
+        if (targetElem) { popUpClose(targetElem); }
+
+        targetElem = target.closest('.call');
+        if (targetElem) { popUpClose(targetElem); }
     };
 
     headerMain.addEventListener('click', handlHeaderClick);
