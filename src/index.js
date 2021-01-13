@@ -1,3 +1,3 @@
-import dropdownMenu from './modules/mainHeaderClick';
+import htmlClick from './modules/htmlClick';
 
-dropdownMenu();
+htmlClick();
