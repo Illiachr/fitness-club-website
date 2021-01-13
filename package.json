@@ -1,7 +1,7 @@
 {
-  "name": "3dglo",
+  "name": "fitness-club-website",
   "version": "1.0.0",
-  "description": "",
+  "description": "graduation project",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --watch",
@@ -10,27 +10,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Illiachr/3D-constructor.git"
+    "url": "git+https://github.com/Illiachr/fitness-club-website.git"
   },
   "keywords": [
-    "landing",
-    "page",
     "js"
   ],
-  "author": "ic",
+  "author": "Illia Cherkasov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Illiachr/3D-constructor/issues"
+    "url": "https://github.com/Illiachr/fitness-club-website/issues"
   },
-  "homepage": "https://github.com/Illiachr/3D-constructor#readme",
+  "homepage": "https://github.com/Illiachr/fitness-club-website#readme",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@webpack-cli/init": "^1.1.0",
     "babel-loader": "^8.2.2",
-    "webpack": "^5.11.1",
-    "webpack-cli": "^4.3.0",
-    "webpack-dev-middleware": "^4.0.2",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "webpack": "^5.13.0",
+    "webpack-cli": "^4.3.1",
     "webpack-dev-server": "^3.11.1"
   }
 }

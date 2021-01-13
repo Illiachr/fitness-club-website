@@ -1,5 +1,6 @@
 .eslintrc
 .vscode
 .idea
+package-lock.json
 /node_modules
 dev-bundle.js
