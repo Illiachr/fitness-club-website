@@ -26,16 +26,22 @@ export default () => {
 
     const handleCardOrder = () => {
         const checkedValues = [...cardOrder.elements].filter(filterElems);
-        const club = checkedValues[1].value;
-        if (checkedValues[2].value.trim() !== '' && checkedValues[2].value.trim() === 'ТЕЛО2019') {
-            price.discount = 30;
-        }
 
-        Object.keys(price[club]).forEach(period => {
-            if (period === checkedValues[0].value) {
-                caclPrice(price[club][period], price.discount);
+        if (checkedValues.length > 1) {
+            const club = checkedValues[1].value;
+            if (checkedValues[2].value.trim() !== '' && checkedValues[2].value.trim() === 'ТЕЛО2020') {
+                price.discount = 30;
+            } else {
+                price.discount = 0;
             }
-        });
+
+            Object.keys(price[club]).forEach(period => {
+                if (period === checkedValues[0].value) {
+                    caclPrice(price[club][period], price.discount);
+                }
+            });
+        }
+        console.log(price);
     }; // end handleCardOrder
 
     cardOrder.addEventListener('change', handleCardOrder);
