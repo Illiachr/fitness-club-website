@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.min.css">
-    <script defer src="dist/bundle.js"></script>
-    <!-- <script defer src="dist/dev-bundle.js"></script> -->
+    <!-- <script defer src="dist/bundle.js"></script> -->
+    <script defer src="dist/dev-bundle.js"></script>
 </head>
 <body>
 <div class="fixed-gift">
@@ -305,7 +305,7 @@
                 <img src="images/cards.png" alt="Клубные карты">
             </div>
             <div class="right">
-                <form action="" id="card_order">
+                <form class="card_order-calc" id="card_order">
                     <div class="time">
                         <input id="m1" type="radio" name="card-type" value="1" checked>
                         <label for="m1">1 месяц</label>
@@ -332,8 +332,7 @@
                     </label>
                     </div>
                     <div class="price">
-                        <div class="price-message input-text"><input name="name" type="text" required
-                                                                     placeholder="Промокод"></div>
+                        <div class="price-message input-text"><input name="promocode" type="text" placeholder="Промокод"></div>
                         <div class="price-message">Цена:</div>
                         <div class="price-message" id="price-total">2999</div>
                     </div>

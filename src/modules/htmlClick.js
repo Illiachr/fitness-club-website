@@ -42,7 +42,7 @@ export default () => {
         }
 
         targetElem = target.closest('.callback-btn');
-        if (targetElem) {
+        if (targetElem && !targetElem.closest('form')) {
             popUp(targetElem.dataset.popup);
         }
 

@@ -1,6 +1,6 @@
-export default () => {
-    const cardOrder = document.getElementById('card_order');
-    const priceTotal = document.getElementById('price-total');
+export default selector => {
+    const cardOrder = document.querySelector(selector);
+    const priceTotal = cardOrder.querySelector('#price-total');
     const price = {
         mozaika: {
             1: 1999,
@@ -41,7 +41,6 @@ export default () => {
                 }
             });
         }
-        console.log(price);
     }; // end handleCardOrder
 
     cardOrder.addEventListener('change', handleCardOrder);
