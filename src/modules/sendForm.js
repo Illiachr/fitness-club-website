@@ -1,14 +1,13 @@
+/* eslint-disable no-param-reassign */
 import maskPhone from './maskPhone';
 import calc from './calc';
 import popUp from './popUp';
 
-export default selector => {
+export default (selector, afterSubmitBtn = true, doConfirmCheck = true, doClubCheck = false) => {
     const form = document.querySelector(selector);
     if (!form) { return; }
 
     const phonePattern = /^((\+?7|8)[ -] ?)?((\(\d{3}\))|(\d{3}))?([ -])?(\d{3}[- ]?\d{2}[- ]?\d{2})$/;
-    // const errTitle = 'Ошибка';
-    // const errMsg = 'Что-то пошло не так...';
     const statusMsg = document.createElement('span');
     const btnSubmit = form.querySelector('button[type=submit]');
     const msgText = {
@@ -16,12 +15,67 @@ export default selector => {
         errMsg: 'Что-то пошло не так...',
         load: 'Идет отправка...',
         club: 'Выберите клуб',
-        phone: 'Введите полный номер телефона',
+        phone: '+7(XXX)-XXX-XX-XX',
         confirm: 'Подтвердите согласие',
     };
+    const check = {
+        isConfirm: false,
+        isClub: false,
+        isPhone: false,
+    };
 
-    maskPhone(`${selector} input[name=phone]`);
-    if (selector === '.card_order-calc') { calc(selector); }
+    const fieldsCheck = e => {
+        [...form.elements].forEach(elem => {
+            if (e.type === 'input') {
+                const { target } = e;
+                if (target === elem && elem.name === 'name') {
+                    target.value = target.value.replace(/[^аА-яёЯЁ ]/, '');
+                }
+
+                if (target === elem && elem.name === 'promocode') {
+                    target.value = target.value.replace(/[^А-ЯЁ ][^\d]/, '');
+                }
+            }
+            if (doClubCheck) {
+                if (elem.name === 'club-name') {
+                    if (elem.checked) {
+                        check.isClub = true;
+                    } else {
+                        statusMsg.textContent = msgText.club;
+                        elem.closest('.club').style.borderBottom = '1px solid red';
+                    }
+                    if (check.isClub) {
+                        statusMsg.textContent = '';
+                        elem.closest('.club').style.cssText = '';
+                    }
+                }
+            } else { check.isClub = true; }
+
+            if (doConfirmCheck) {
+                if (elem.matches('.personal-data input[type=checkbox]')) {
+                    if (elem.checked) {
+                        check.isConfirm = true;
+                        statusMsg.textContent = '';
+                        elem.nextElementSibling.style.borderBottom = '';
+                    } else {
+                        check.isConfirm = false;
+                        statusMsg.textContent = msgText.confirm;
+                        elem.nextElementSibling.style.borderBottom = '1px solid red';
+                    }
+                }
+            } else { check.isConfirm = true; }
+
+            if (elem.name === 'phone') {
+                if (phonePattern.test(elem.value)) {
+                    check.isPhone = true;
+                    elem.setCustomValidity('');
+                } else {
+                    check.isPhone = false;
+                    elem.setCustomValidity(msgText.phone);
+                }
+            }
+        });
+    }; // end fieldsCheck
 
     const postData = data => fetch('./server.php', {
         method: 'POST',
@@ -31,87 +85,19 @@ export default selector => {
         body: JSON.stringify(data),
     }); // end postData
 
-    statusMsg.className = 'status-msg active';
-    btnSubmit.after(statusMsg);
-
-    if (form.classList.contains('card_order-calc') || form.classList.contains('card_order')) {
-        statusMsg.style.color = '#000000';
-    }
-
-    form.addEventListener('input', e => {
-        const { target } = e;
-        if (target.matches('input[name=name]')) {
-            target.value = target.value.replace(/[^аА-яёЯЁ ]/, '');
-        }
-
-        if (target.matches('input[name=promocode]')) {
-            target.value = target.value.replace(/[^А-ЯЁ ][^\d]/, '');
-        }
-
-        [...form.elements].forEach(elem => {
-            if (elem.name === 'club-name') {
-                if (!elem.checked) {
-                    statusMsg.classList.add('active');
-                    statusMsg.textContent = msgText.club;
-                }
-            }
-
-            if (elem.matches('.personal-data input[type=checkbox]')) {
-                if (!elem.checked) {
-                    statusMsg.classList.add('active');
-                    statusMsg.textContent = msgText.confirm;
-                }
-            }
-        });
-    }); // end form listener input
-
-    form.addEventListener('change', () => {
-        [...form.elements].forEach(elem => {
-            if (elem.name === 'club-name') {
-                if (elem.checked) { statusMsg.textContent = ''; }
-            }
-
-            if (elem.matches('.personal-data input[type=checkbox]')) {
-                if (elem.checked) { statusMsg.textContent = ''; }
-            }
-        });
-    }); // end form listener change
-
-    form.addEventListener('submit', e => {
+    const handlSubmit = e => {
         e.preventDefault();
+        statusMsg.classList.add('active');
 
         const formData = new FormData(form);
         const body = {};
 
-        let checked = 0;
-        [...form.elements].forEach(elem => {
-            if (elem.name === 'club-name') {
-                if (elem.checked) {
-                    checked += 1;
-                } else { statusMsg.textContent = msgText.club; }
-            }
+        fieldsCheck(e);
 
-            if (elem.matches('.personal-data input[type=checkbox]')) {
-                if (elem.checked) {
-                    checked += 1;
-                } else { statusMsg.textContent = msgText.confirm; }
-            }
-        });
+        if (!check.isClub) { return; }
+        if (!check.isConfirm || !check.isPhone) { return; }
 
-        if (!checked) {
-            statusMsg.classList.add('active');
-            return;
-        }
-
-        const phoneValue = form.querySelector('input[name=phone]').value;
-        if (!phonePattern.test(phoneValue)) {
-            statusMsg.classList.add('active');
-            statusMsg.textContent = msgText.phone;
-            return;
-        }
-
-        statusMsg.textContent = 'Идет отправка...';
-        statusMsg.classList.add('active');
+        statusMsg.textContent = msgText.load;
         formData.forEach((val, key) => {
             body[key] = val;
         });
@@ -128,6 +114,7 @@ export default selector => {
             })
             .finally(() => {
                 form.reset();
+                Object.keys(check).forEach(key => { check[key] = false; });
                 statusMsg.classList.remove('active');
 
                 if (form.closest('.popup')) {
@@ -136,5 +123,16 @@ export default selector => {
 
                 setTimeout(() => popUp.close(), 6000);
             });
-    });
+    }; // end submitHandler
+
+    maskPhone(`${selector} input[name=phone]`);
+    if (form.classList.contains('card_order-calc')) { calc(selector); }
+
+    statusMsg.className = 'status-msg active';
+    if (afterSubmitBtn) {
+        btnSubmit.after(statusMsg);
+    } else { form.append(statusMsg); }
+
+    form.addEventListener('input', fieldsCheck);
+    form.addEventListener('submit', handlSubmit);
 };

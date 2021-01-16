@@ -32,10 +32,11 @@ html,body,body div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,ad
 
 .status-msg {
     display: none;
-    color: #ffffff;
+    /* color: #000000; */
     font-size: 1rem;   
     margin-top: 1rem;
     text-align: center;
+    mix-blend-mode: revert;
 }
 .status-msg.active {
     display: block;
