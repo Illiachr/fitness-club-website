@@ -129,6 +129,9 @@ export default (selector, afterSubmitBtn = true, doConfirmCheck = true, doClubCh
     if (form.classList.contains('card_order-calc')) { calc(selector); }
 
     statusMsg.className = 'status-msg active';
+    if (form.classList.contains('card_order') || form.classList.contains('card_order-calc')) {
+        statusMsg.style.color = '#000000';
+    }
     if (afterSubmitBtn) {
         btnSubmit.after(statusMsg);
     } else { form.append(statusMsg); }
