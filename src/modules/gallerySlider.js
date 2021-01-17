@@ -1,9 +1,4 @@
-const addElem = (elemAppend, strTag, strClass = '') => {
-    const elem = document.createElement(strTag);
-    if (strClass.trim() !== '') { elem.className = strClass; }
-    elemAppend.append(elem);
-    return elem;
-};
+import { addElem, addArrowButton } from './utils';
 
 export default () => {
     const gallerySlider = document.querySelector('.gallery-slider');
@@ -23,14 +18,9 @@ export default () => {
         return elemNode;
     };
 
-    const addArrowButton = (btnClass, iconClass) => {
-        const btn = addElem(gallerySlider, 'a', btnClass);
-        addElem(btn, 'span', iconClass);
-    };
-
     const addButtons = () => {
-        addArrowButton('slider-arrow prev', 'fa fa-arrow-left');
-        addArrowButton('slider-arrow next', 'fa fa-arrow-right');
+        addArrowButton(gallerySlider, addElem, 'slider-arrow prev', 'fa fa-arrow-left');
+        addArrowButton(gallerySlider, addElem, 'slider-arrow next', 'fa fa-arrow-right');
     };
 
     const dots = addDots('slider-dots');

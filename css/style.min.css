@@ -1536,17 +1536,26 @@ nav.popup-menu .close-menu-btn img {
 }
 
 .services-slider {
-    display: flex;
+    /* display: flex; */
     margin: 0 auto;
     padding-left: 15px;
     padding-right: 15px
+}
+
+.services-slider--wrap {
+    display: flex;
+    overflow: hidden;
+    transition: transform 0.5s !important;
+    will-change: transform !important;
 }
 
 .services-slider .slide {
     text-align: center;
     margin-right: 6px;
     margin-left: 6px;
-    width: 210px
+    width: 210px;
+    transition: transform 0.5s !important;
+    will-change: transform !important;
 }
 
 .services-slider .slide img {
@@ -2730,7 +2739,8 @@ p.personal-data input[type=checkbox]:checked+label:before {
 }
 
 .services-slider .slide {
-    min-width: 210px
+    /* flex: 0 0 20%; */
+    /* min-width: 210px */
 }
 
 .gallery-slider .slide {
