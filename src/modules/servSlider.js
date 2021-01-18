@@ -1,42 +1,46 @@
 /* eslint-disable no-param-reassign */
-import { addElem, addArrowButton } from './utils';
+import { addElem, addArrowButton, calculate } from './utils';
 
-export default (sliderSelector = '.services-slider', slidesToShow = 5) => {
+export default (sliderSelector = '.services-slider') => {
     const servicesSlider = document.querySelector(sliderSelector);
     const slideAll = document.querySelectorAll(`${sliderSelector} .slide`);
-    const sliderWidth = servicesSlider.getBoundingClientRect().width;
-    const sliderPadding = parseInt(getComputedStyle(servicesSlider).padding.split(' ')[1], 10) * 2;
-    const slideMargin = parseInt(getComputedStyle(slideAll[0]).margin.split(' ')[1], 10) * 2;
-    const slideWidth = Math.floor((sliderWidth - sliderPadding) / slidesToShow) - slideMargin;
-    const step = slideWidth + slideMargin;
-    const maxPos = slidesToShow * step;
+    const slideWrap = servicesSlider.querySelector(`${sliderSelector}--wrap`);
 
     let position = 0;
+    let options = calculate(servicesSlider, slideAll);
+    slideWrap.style.maxWidth = `${options.wrapWidth}px`;
 
     const addButtons = () => {
         addArrowButton(servicesSlider, addElem, 'slider-arrow prev', 'fa fa-arrow-left');
         addArrowButton(servicesSlider, addElem, 'slider-arrow next', 'fa fa-arrow-right');
     };
 
+    const moveSlide = () => {
+        slideAll.forEach(slide => {
+            slide.style.transform = `translateX(-${position}px)`;
+        });
+    };
+
     const prevSlide = () => {
         if (position > 0) {
-            position -= step;
-
-            slideAll.forEach(slide => {
-                slide.style.transform = `translateX(-${position}px)`;
-            });
+            position -= options.step;
+            moveSlide();
         }
     }; // end prevSlide
 
     const nextSlide = () => {
-        if (position < maxPos) {
-            position += step;
-
-            slideAll.forEach(slide => {
-                slide.style.transform = `translateX(-${position}px)`;
-            });
+        if (position < options.maxPos) {
+            position += options.step;
+            moveSlide();
         }
     }; // end nextSlide
+
+    const handleWinResize = () => {
+        position = 0;
+        options = calculate(servicesSlider, slideAll);
+        slideWrap.style.maxWidth = `${options.wrapWidth}px`;
+        moveSlide();
+    }; // end handleWinResize
 
     const handleClickSlider = e => {
         const { target } = e;
@@ -44,11 +48,8 @@ export default (sliderSelector = '.services-slider', slidesToShow = 5) => {
         if (target.closest('.next')) { nextSlide(); }
     }; // end handleClickSlider
 
-    slideAll.forEach(slide => {
-        slide.style.minWidth = `${slideWidth}px`;
-    });
-
     addButtons();
 
+    window.addEventListener('resize', handleWinResize);
     servicesSlider.addEventListener('click', handleClickSlider);
 };

@@ -1536,7 +1536,6 @@ nav.popup-menu .close-menu-btn img {
 }
 
 .services-slider {
-    /* display: flex; */
     margin: 0 auto;
     padding-left: 15px;
     padding-right: 15px
@@ -1545,15 +1544,14 @@ nav.popup-menu .close-menu-btn img {
 .services-slider--wrap {
     display: flex;
     overflow: hidden;
-    transition: transform 0.5s !important;
-    will-change: transform !important;
+    margin: 0 auto;
 }
 
 .services-slider .slide {
     text-align: center;
     margin-right: 6px;
     margin-left: 6px;
-    width: 210px;
+    min-width: 210px;
     transition: transform 0.5s !important;
     will-change: transform !important;
 }
@@ -2685,62 +2683,21 @@ p.personal-data input[type=checkbox]:checked+label:before {
     width: 100%;
 }
 
-.loader-wrapper {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    background: #ffffff;
-}
-
-.loader {
-    display: none;
-    width: 50px;
-    height: 50px;
-    border: 8px solid #ffffff;
-    border-radius: 50%;
-    border-top-color: #19b5fe;
-    margin: 5px auto;
-    animation: 1.5s spin infinite linear;
-}
-
-.loader.active {
-    display: block;
-    position: absolute;
-    top: 35%;
-    left: 40%;
-}
-
 .status-msg {
     display: none;
     color: #ffffff;
     font-size: 1rem;
     margin-top: 1rem;
     text-align: center;
-    ;
 }
 
 .status-msg.active {
     display: block;
 }
 
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 .services-slider {
     overflow: hidden;
     position: relative;
-}
-
-.services-slider .slide {
-    /* flex: 0 0 20%; */
-    /* min-width: 210px */
 }
 
 .gallery-slider .slide {

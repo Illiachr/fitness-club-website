@@ -5,7 +5,6 @@ export default () => {
     const headerMainCenter = document.querySelector('.header-main').getBoundingClientRect().bottom / 2;
     const topMenu = document.querySelector('.top-menu');
     const topMenuHeight = topMenu.getBoundingClientRect().height;
-    const mainSlider = document.querySelector('.main-slider');
     const screenSize = window.screen.width;
 
     const getTop = () => window.pageYOffset || document.documentElement.scrollTop;
@@ -19,12 +18,10 @@ export default () => {
         } else { toTop.style.display = 'none'; }
 
         if (screenSize < 768) {
-            if (getTop() >= topMenu.getBoundingClientRect().bottom) {
+            if (getTop() >= topMenu.getBoundingClientRect().bottom + topMenuHeight) {
                 topMenu.classList.add('fixed-header');
-                mainSlider.style.cssText = `margin-top: ${topMenuHeight}px`;
             } else {
                 topMenu.classList.remove('fixed-header');
-                mainSlider.removeAttribute('style');
             }
         }
     };
