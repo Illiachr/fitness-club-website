@@ -38,6 +38,7 @@ export default (sliderSelector = '.services-slider') => {
 
             moveSlide();
         }
+        options.allowShift = false;
     }; // end shiftSlide
 
     const handleWinResize = () => {
