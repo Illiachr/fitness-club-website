@@ -44,4 +44,5 @@ export default selector => {
     }; // end handleCardOrder
 
     cardOrder.addEventListener('change', handleCardOrder);
+    cardOrder.addEventListener('keyup', handleCardOrder);
 };

@@ -1537,14 +1537,25 @@ nav.popup-menu .close-menu-btn img {
 
 .services-slider {
     margin: 0 auto;
+    /* overflow: hidden; */
     padding-left: 15px;
     padding-right: 15px
 }
 
 .services-slider--wrap {
-    display: flex;
+    position: relative;
     overflow: hidden;
     margin: 0 auto;
+}
+
+.services-slider--slides {
+    display: flex;
+    position: relative;
+}
+
+.services-slider--slides.shifting {
+    transition: transform 0.5s !important;
+    will-change: transform !important;
 }
 
 .services-slider .slide {
